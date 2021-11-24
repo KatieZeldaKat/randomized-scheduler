@@ -12,6 +12,57 @@
             <br />
             <h1 class="text-center">Randomized Scheduler</h1>
             <h4 class="text-center">Copyright © Katherine Norton 2021</h4>
+            <br />
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="start-date">Date to start scheduling from:</label>
+                    <br />
+                    <input id="start-date" type="date" />
+                </div>
+                <div class="col-4">
+                    <label for="end-date">Date to end scheduling on:</label>
+                    <br />
+                    <input id="end-date" type="date" />
+                </div>
+                <div class="col-4">
+                    <label for"num-per-day>Number of people to schedule per day:</label>
+                    <br />
+                    <input id="num-per-day" type="number" value="2" min="1" />
+                </div>
+            </div>
+            
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-4">
+                    <input id="add-person-name" />
+                    <button onclick="addPerson()">Add Person</button>
+                </div>
+                <div class="col-8">
+                    <input id="remove-person-index" type="number" value="1" min="1" max="1" />
+                    <button onclick="removePerson()">Remove Person At Position</button>
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <div>
+                <label for="people-list">People being scheduled:</label>
+                <br />
+                <ol id="people-list"></ol>
+            </div>
+
+            <br />
+            <br />
+
+            <div>
+                <button onclick="generateSchedule()">Generate Schedule</button>
+                <br />
+                <br />
+            </div>
         </div>
     </body>
 </html>
