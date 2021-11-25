@@ -37,6 +37,23 @@
 
             <div class="row">
                 <div class="col-4">
+                    <label for="shift-frequency">Frequency of shifts (in days):</label>
+                    <br />
+                    <input id="shift-frequency" type="number" value="7" min="1" />
+                </div>
+                <div class="col-4">
+                    <label for="grace-period">Grace period before next shift:</label>
+                    <br />
+                    <input id="grace-period" type="number" value="2" min="0" />
+                </div>
+            </div>
+            
+            <br />
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-4">
                     <input id="add-person-name" />
                     <button onclick="addPerson()">Add Person</button>
                 </div>

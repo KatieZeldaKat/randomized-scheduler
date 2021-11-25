@@ -47,21 +47,50 @@ function generateSchedule() {
     scheduleContainer.appendChild(document.createElement("div"));
 
     // Get values from the web page
-    var numPerDay = document.querySelector("#num-per-day").value;
+    var numPerDay = +document.querySelector("#num-per-day").value;
     var startDate = new Date(document.querySelector("#start-date").value);
     var endDate = new Date(document.querySelector("#end-date").value);
+    var shiftFrequency = +document.querySelector("#shift-frequency").value;
+    var gracePeriod = +document.querySelector("#grace-period").value + 1;
 
     // Get the difference in dates and convert to weeks
     var dateDiffMs = endDate - startDate;
-    var weeks = Math.floor(dateDiffMs / 1000 / 60 / 60 / 24 / 7) + 1;
+    var days = Math.floor(dateDiffMs / 1000 / 60 / 60 / 24) + 1;
+    console.log("Days", days);
+
+    // Generate random array accounting for grace period
+    var shiftsArray = generateRandomArray(peopleNames.length);
+    while (shiftsArray.length <= peopleNames.length * days / shiftFrequency / numPerDay) {
+        var randomArray;
+
+        // Find good grace period
+        var found = false;
+        while (!found) {
+            found = true;
+            randomArray = generateRandomArray(peopleNames.length);
+
+            for (var shift = shiftsArray.length - gracePeriod * numPerDay; shift < shiftsArray.length; shift++) {
+                for (var proposed = 0; proposed < gracePeriod * numPerDay - (shiftsArray.length - shift); proposed++) {
+                    if (shiftsArray[shift] == randomArray[proposed]) {
+                        found = false;
+                    }
+                }
+            }
+        }
+
+        shiftsArray = shiftsArray.concat(randomArray);
+    }
+    console.log(shiftsArray);
 
     // Initialize info for iterating through the weeks
     var iterator = 0;
-    var randomArray = generateRandomArray(peopleNames.length);
     var currentDay = new Date(startDate);
     currentDay.setDate(currentDay.getDate() + 1);
 
-    for (var week = 0; week < weeks; week++) {
+    var day = 0;
+    while (day < days) {
+        console.log(currentDay);
+        console.log(shiftFrequency);
         var dayLabel = document.createElement("label");
         dayLabel.innerHTML = currentDay.toLocaleDateString();
         scheduleContainer.appendChild(dayLabel);
@@ -71,18 +100,13 @@ function generateSchedule() {
 
         for (var person = 0; person < numPerDay; person++) {
             var personItem = document.createElement("li");
-            personItem.innerHTML = peopleNames[randomArray[iterator]];
+            personItem.innerHTML = peopleNames[shiftsArray[iterator]];
             list.appendChild(personItem);
             iterator++;
-
-            // Prevent overflow
-            if (iterator >= peopleNames.length) {
-                iterator = 0;
-                randomArray = generateRandomArray(peopleNames.length);
-            }
         }
 
-        currentDay.setDate(currentDay.getDate() + 7);
+        currentDay.setDate(currentDay.getDate() + shiftFrequency);
+        day += shiftFrequency;
         scheduleContainer.appendChild(list);
         scheduleContainer.appendChild(document.createElement("br"));
     }
