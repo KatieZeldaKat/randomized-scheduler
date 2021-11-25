@@ -26,7 +26,7 @@
                     <input id="end-date" type="date" />
                 </div>
                 <div class="col-4">
-                    <label for"num-per-day>Number of people to schedule per day:</label>
+                    <label for="num-per-day">Number of people to schedule per day:</label>
                     <br />
                     <input id="num-per-day" type="number" value="2" min="1" />
                 </div>
@@ -58,11 +58,12 @@
             <br />
             <br />
 
-            <div>
-                <button onclick="generateSchedule()">Generate Schedule</button>
-                <br />
-                <br />
-            </div>
+            <button onclick="generateSchedule()">Generate New Schedule</button>
+            
+            <br />
+            <br />
+
+            <div id="schedule-container"></div>
         </div>
     </body>
 </html>
